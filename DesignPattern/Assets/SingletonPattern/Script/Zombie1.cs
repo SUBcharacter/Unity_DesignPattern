@@ -13,11 +13,12 @@ public class Zombie1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!GameManager.instance.state) return;
+        transform.localScale = new Vector3(Mathf.PingPong(Time.time, 1), Mathf.PingPong(Time.time, 1), Mathf.PingPong(Time.time, 1));
     }
 
     public void SizePingPong()
     {
-        transform.localScale = new Vector3(Mathf.PingPong(Time.time, 1), Mathf.PingPong(Time.time, 1), Mathf.PingPong(Time.time, 1));
+        
     }
 }

@@ -13,12 +13,13 @@ public class Zombie3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!GameManager.instance.state) return;
+        transform.Rotate(new Vector3(0, 360, 0) * Time.deltaTime);
     }
 
     public void RotatingCharacter()
     {
-        transform.Rotate(new Vector3(0,360,0)*Time.deltaTime);
+        
     }
        
 }
