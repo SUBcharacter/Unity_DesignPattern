@@ -13,12 +13,14 @@ public class Field : MonoBehaviour
     {
         EventManager.Subscribe(Event.START, EnableField);
         EventManager.Subscribe(Event.PAUSE, UnableField);
+        EventManager.Subscribe(Event.EXIT,DestroyField);
     }
 
     private void OnDisable()
     {
-        EventManager.Subscribe(Event.START, EnableField);
-        EventManager.Subscribe(Event.PAUSE, UnableField);
+        EventManager.Unsubscribe(Event.START, EnableField);
+        EventManager.Unsubscribe(Event.PAUSE, UnableField);
+        EventManager.Unsubscribe(Event.EXIT, DestroyField);
     }
 
     void EnableField()
@@ -29,6 +31,11 @@ public class Field : MonoBehaviour
     void UnableField()
     {
         animator.enabled = false;
+    }
+
+    void DestroyField()
+    {
+        Destroy(gameObject);
     }
 
 }
