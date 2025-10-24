@@ -27,9 +27,14 @@ public class WeaponManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            weapon[index].gameObject.SetActive(false);
-            index = (index +1 ) % weapon.Length;
-            weapon[index].gameObject.SetActive(true);
+            Swap();
         }
+    }
+
+    void Swap()
+    {
+        weapon[index].gameObject.SetActive(false);
+        index = (index + 1) % weapon.Length;
+        weapon[index].gameObject.SetActive(true);
     }
 }
