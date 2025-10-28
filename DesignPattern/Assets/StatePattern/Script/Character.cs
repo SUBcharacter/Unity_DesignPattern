@@ -2,28 +2,57 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] public Animator animator;
+    [SerializeField] State currentState;
 
     [SerializeField] bool isWalk = false;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        currentState = new Idle();
+        currentState.Enter(this);
     }
 
     private void Update()
     {
-        Move();
-        AnimationControler();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
         {
-            PickUp();
+            isWalk = !isWalk;
         }
+        bool pickUp = Input.GetKeyDown(KeyCode.Space);
+
+
+      
+        if (isWalk && !(currentState is Walk))
+        {
+            if (pickUp && !(currentState is PickUp))
+            {
+                ChangeState(new PickUp());
+            }
+            else
+            {
+                ChangeState(new Walk());
+            }
+        }
+        else
+        {
+            if (pickUp && !(currentState is PickUp))
+            {
+                ChangeState(new PickUp());
+            }
+            else
+            {
+                ChangeState(new Idle());
+            }
+        }
+        currentState.Update(this);
+
     }
 
     void Move()
     {
-        isWalk = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
+        
         
     }
 
@@ -38,5 +67,12 @@ public class Character : MonoBehaviour
         if (animatorStateInfo.IsName("pickup"))
             return;
         animator.SetTrigger("PickUp");
+    }
+
+    public void ChangeState(State state)
+    {
+        currentState?.Exit(this);
+        currentState = state;
+        currentState.Enter(this);
     }
 }
